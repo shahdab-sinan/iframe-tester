@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Iframe Content</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body >
+  <h3>Iframe Content</h3>
+  <p>This content is inside the iframe...</p>
+  <p>Click below to add more content</p>
+  <button onclick="addContent()">Add Content</button>
+  <div id="extraContent"></div>
+
+  <script>
+    function sendHeightToParent() {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({ iframeHeight: height }, "*"); // Use specific origin for security
+    }
+
+    function addContent() {
+      const div = document.getElementById("extraContent");
+      div.innerHTML += "<p>More content added!</p>";
+      sendHeightToParent();
+    }
+
+    window.addEventListener("load", sendHeightToParent);
+    window.addEventListener("resize", sendHeightToParent);
+  </script>
+</body>
+</html>

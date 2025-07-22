@@ -1,0 +1,64 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Parent Page</title>
+  <style>
+    iframe {
+      width: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Parent Page</h2>
+  <iframe id="myIframe" src="child.html" style="border: solid;"></iframe>
+
+  <script>
+    window.addEventListener("message", function(event) {
+      // For security, you should check event.origin here if using cross-domain
+      if (event.data.iframeHeight) {
+        const iframe = document.getElementById("myIframe");
+        iframe.style.height = event.data.iframeHeight + "px";
+      }
+    });
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Iframe Content</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body >
+  <h3>Iframe Content</h3>
+  <p>This content is inside the iframe...</p>
+  <p>Click below to add more content</p>
+  <button onclick="addContent()">Add Content</button>
+  <div id="extraContent"></div>
+
+  <script>
+    function sendHeightToParent() {
+      window.parent.postMessage(
+        { messageType: "adjust-height", iframeHeight: document.body.scrollHeight },
+        "*"
+      );
+    }
+
+    function addContent() {
+      const div = document.getElementById("extraContent");
+      div.innerHTML += "<p>More content added!</p>";
+      sendHeightToParent();
+    }
+
+    window.addEventListener("load", sendHeightToParent);
+    window.addEventListener("resize", sendHeightToParent);
+  </script>
+</body>
+</html>
