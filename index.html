@@ -47,6 +47,13 @@
     function sendHeightToParent() {
       window.parent.postMessage(
         { messageType: "adjust-height", iframeHeight: document.body.scrollHeight },
+        "http://*.com"
+      );
+    }
+
+    function extendParentSession(){
+      window.parent.postMessage(
+        { messageType: "extend-session", },
         "*"
       );
     }
@@ -57,7 +64,13 @@
       sendHeightToParent();
     }
 
-    window.addEventListener("load", sendHeightToParent);
+    window.addEventListener("load", () => {
+    sendHeightToParent();
+
+    // Set up periodic session extension every 60 seconds
+    setInterval(extendParentSession, 60000);
+  });
+
     window.addEventListener("resize", sendHeightToParent);
   </script>
 </body>
