@@ -47,7 +47,7 @@
     function sendHeightToParent() {
       window.parent.postMessage(
         { messageType: "adjust-height", iframeHeight: document.body.scrollHeight },
-        "http://*.com"
+        "*"
       );
     }
 
