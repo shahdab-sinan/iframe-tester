@@ -56,7 +56,7 @@
     const parentOrigin = referrer.origin;
 
     // Allow only specific trusted domain(s)
-    if (referrer.hostname.endsWith("portal.com")) {
+    if (referrer.hostname.endsWith(".com")) {
       window.parent.postMessage(message, parentOrigin);
     }
   }
