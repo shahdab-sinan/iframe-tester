@@ -18,40 +18,9 @@
   <div id="extraContent"></div>
 
   <script>
-     function addContent() {
-      const div = document.getElementById("extraContent");
-      div.innerHTML += "<p>More content added!</p>";
-      sendHeightToParent();
-    }
-  // Helper to safely post message to trusted parent origin
-    function postToParent(message) {
-      const referrer = new URL(document.referrer);
-      const parentOrigin = referrer.origin;
-  
-      // Allow only specific trusted domain(s)
-      if (referrer.hostname.endsWith(".com")) {
-        window.parent.postMessage(message, parentOrigin);
-      }
-    }
-  
-    function sendHeightToParent() {
-      const height = document.body.scrollHeight;
-      postToParent({ messageType: "adjust-height", iframeHeight: height });
-    }
-  
-    function extendParentSession() {
-      postToParent({ messageType: "extend-session" });
-    }
-  
-    window.addEventListener("load", () => {
-      sendHeightToParent();
-  
-      // Set up session extension every 60 seconds
-      setInterval(extendParentSession, 60000);
-    });
-  
-    window.addEventListener("resize", sendHeightToParent);
+     
   </script>
 </body>
 </html>
+
 
