@@ -11,6 +11,9 @@
   </style>
 </head>
 <body >
+  <div class="video-container">
+    <iframe width="440" height="248" src="https://www.youtube.com/embed/cpZWwxJpEYA?rel=0" frameborder="0"></iframe>
+  </div>
   <h3>Iframe Content</h3>
   <p>This content is inside the iframe...</p>
   <p>Click below to add more content</p>
@@ -18,9 +21,42 @@
   <div id="extraContent"></div>
 
   <script>
-     
+     function addContent() {
+      const div = document.getElementById("extraContent");
+      div.innerHTML += "<p>More content added!</p>";
+      sendHeightToParent();
+    }
+  // Helper to safely post message to trusted parent origin
+    function postToParent(message) {
+      const referrer = new URL(document.referrer);
+      const parentOrigin = referrer.origin;
+  
+      // Allow only specific trusted domain(s)
+      if (referrer.hostname.endsWith(".com")) {
+        window.parent.postMessage(message, parentOrigin);
+      }
+    }
+  
+    function sendHeightToParent() {
+      const height = document.body.scrollHeight;
+      postToParent({ messageType: "adjust-height", iframeHeight: height });
+    }
+  
+    function extendParentSession() {
+      postToParent({ messageType: "extend-session" });
+    }
+  
+    window.addEventListener("load", () => {
+      sendHeightToParent();
+  
+      // Set up session extension every 60 seconds
+      setInterval(extendParentSession, 60000);
+    });
+  
+    window.addEventListener("resize", sendHeightToParent);
   </script>
 </body>
 </html>
+
 
 
