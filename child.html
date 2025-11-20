@@ -32,7 +32,7 @@
       let parentOrigin = '*'; 
   
       // Allow only specific trusted domain(s)
-      if (referrrer && referrer.hostname.endsWith(".com")) {
+      if (referrer && referrer.hostname.endsWith(".com")) {
         parentOrigin = referrer.origin;
         window.parent.postMessage(message, parentOrigin);
       }else{
@@ -60,6 +60,7 @@
   </script>
 </body>
 </html>
+
 
 
 
