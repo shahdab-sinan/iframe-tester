@@ -28,8 +28,12 @@
     }
   // Helper to safely post message to trusted parent origin
     function postToParent(message) {
-      console.log(document);
-      console.log(document.referrer);
+        console.log("document.referrer =", document.referrer);
+        try {
+          console.log("Parsed referrer URL =", new URL(document.referrer));
+        } catch (e) {
+          console.warn("Cannot parse referrer:", e);
+        }
       const referrer = new URL(document.referrer);
       const parentOrigin = referrer.origin;
   
@@ -59,6 +63,7 @@
   </script>
 </body>
 </html>
+
 
 
 
