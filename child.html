@@ -28,17 +28,14 @@
     }
   // Helper to safely post message to trusted parent origin
     function postToParent(message) {
-        console.log("document.referrer =", document.referrer);
-        try {
-          console.log("Parsed referrer URL =", new URL(document.referrer));
-        } catch (e) {
-          console.warn("Cannot parse referrer:", e);
-        }
-      const referrer = new URL(document.referrer);
-      const parentOrigin = referrer.origin;
+      const referrer = document.referrer || '';
+      let parentOrigin = '*'; 
   
       // Allow only specific trusted domain(s)
-      if (referrer.hostname.endsWith(".com")) {
+      if (referrrer && referrer.hostname.endsWith(".com")) {
+        parentOrigin = referrer.origin;
+        window.parent.postMessage(message, parentOrigin);
+      }else{
         window.parent.postMessage(message, parentOrigin);
       }
     }
@@ -63,6 +60,7 @@
   </script>
 </body>
 </html>
+
 
 
 
