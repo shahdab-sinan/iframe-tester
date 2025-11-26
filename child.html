@@ -11,9 +11,9 @@
   </style>
 </head>
 <body >
-  <!--<div class="video-container">
+  <div class="video-container">
     <iframe width="440" height="248" src="https://www.youtube.com/embed/cpZWwxJpEYA?rel=0" frameborder="0"></iframe>
-  </div>-->
+  </div>
   <h3>Iframe Content</h3>
   <p>This content is inside the iframe...</p>
   <p>Click below to add more content</p>
@@ -21,23 +21,42 @@
   <div id="extraContent"></div>
 
   <script>
-   function postToParent(message) { 
-    const referrer = new URL(document.referrer); 
-    const parentOrigin = referrer.origin; 
-    // Allow only specific trusted domain(s) 
-    if (referrer.hostname.endsWith(".nhs.uhs.uk")) { 
-      window.parent.postMessage(message, parentOrigin); 
-    } 
-  } 
+   const allowedDomains = [
+  ".nhs.uhs.uk",
+  ".uhs.nhs.uk"
+];
+function postToParent(message) {
+  const ref = document.referrer;
+
+    // If referrer missing (iOS Safari), skip domain check
+    if (!ref) {
+     window.parent.postMessage(message, "*");
+     return; 
+    }
+
+    const url = new URL(ref);
+    const hostname = url.hostname;
+    const origin = url.origin;
+
+    const isAllowed = allowedDomains.some(domain =>
+      hostname.endsWith(domain)
+    );
+
+    if (isAllowed) {
+        window.parent.postMessage(message, origin);
+    }
+}
 
   function sendHeightToParent() { 
     const height = document.body.scrollHeight; 
     postToParent({ messageType: "adjust-height", iframeHeight: height}); 
-}
+  }
 
   function extendParentSession() { 
     postToParent({ messageType: "extend-session" }); 
-  }   window.addEventListener("load", () => { 
+    }   
+    
+    window.addEventListener("load", () => { 
     sendHeightToParent(); 
     // Set up session extension every 60 seconds 
     setInterval(extendParentSession, 60000); 
@@ -47,6 +66,7 @@
   </script>
 </body>
 </html>
+
 
 
 
