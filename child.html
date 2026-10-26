@@ -26,7 +26,7 @@
     function addContent() {
       const div = document.getElementById("extraContent");
       div.innerHTML += "<p>More content added!</p>";
-      window.parent.postMessage({messageType: "adjust-height", iframeHeight: height}, "https://uhs000-iphr-portal.stg.chbase.com");
+      window.parent.postMessage({messageType: "adjust-height", iframeHeight: height}, "*");
     }
 
     window.addEventListener("load", sendHeightToParent);
