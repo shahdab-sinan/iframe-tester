@@ -20,13 +20,13 @@
   <script>
     function sendHeightToParent() {
       const height = document.body.scrollHeight;
-      window.parent.postMessage({ iframeHeight: height }, "*"); // Use specific origin for security
+      window.parent.postMessage({ messageType: "adjust-height",iframeHeight: height }, "*"); // Use specific origin for security
     }
 
     function addContent() {
       const div = document.getElementById("extraContent");
       div.innerHTML += "<p>More content added!</p>";
-      sendHeightToParent();
+      window.parent.postMessage({messageType: "adjust-height", iframeHeight: height}, "https://uhs000-iphr-portal.stg.chbase.com");
     }
 
     window.addEventListener("load", sendHeightToParent);
