@@ -26,6 +26,7 @@
     function addContent() {
       const div = document.getElementById("extraContent");
       div.innerHTML += "<p>More content added!</p>";
+      const height = document.body.scrollHeight;
       window.parent.postMessage({messageType: "adjust-height", iframeHeight: height}, "*");
     }
 
